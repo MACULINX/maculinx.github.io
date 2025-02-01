@@ -16,7 +16,7 @@ repo_links = []
 
 for repo in repos:
     try:
-        repo_name = repo[0]
+        repo_name = repo["name"]
         if(repo_name != "maculinx.github.io"):
             pages_url = f"https://{GITHUB_USERNAME}.github.io/{repo_name}/"
 
