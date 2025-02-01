@@ -15,16 +15,20 @@ repos = requests.get(API_REPOS_URL, headers=HEADERS).json()
 repo_links = []
 
 for repo in repos:
-    repo_name = repo["name"]
-    if(repo_name != "maculinx.github.io"):
-        pages_url = f"https://{GITHUB_USERNAME}.github.io/{repo_name}/"
+    try:
+        repo_name = repo["name"]
+        if(repo_name != "maculinx.github.io"):
+            pages_url = f"https://{GITHUB_USERNAME}.github.io/{repo_name}/"
 
-        # Controlla se la repository ha GitHub Pages attivo
-        pages_api_url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{repo_name}/pages"
-        pages_response = requests.get(pages_api_url, headers=HEADERS)
+            # Controlla se la repository ha GitHub Pages attivo
+            pages_api_url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{repo_name}/pages"
+            pages_response = requests.get(pages_api_url, headers=HEADERS)
 
-        if pages_response.status_code == 200:  # Se GitHub Pages è attivo
-            repo_links.append(f'<li><a href="{pages_url}">{repo_name}</a></li>')
+            if pages_response.status_code == 200:  # Se GitHub Pages è attivo
+                repo_links.append(f'<li><a href="{pages_url}">{repo_name}</a></li>')
+    except KeyError as e:
+        print(f"Errore nel recuperare il nome della repository: {e}")
+
 
 # Genera il file index.html
 html_content = f"""
