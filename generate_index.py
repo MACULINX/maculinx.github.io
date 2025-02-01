@@ -7,10 +7,9 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")  # Usa il token GitHub dalle secrets
 
 # URL per ottenere tutte le repo dell'utente
 API_REPOS_URL = f"https://api.github.com/users/{GITHUB_USERNAME}/repos"
-HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
 
 # Ottieni la lista delle repository
-repos = requests.get(API_REPOS_URL, headers=HEADERS).json()
+repos = requests.get(API_REPOS_URL).json()
 
 repo_links = []
 
@@ -22,7 +21,7 @@ for repo in repos:
 
             # Controlla se la repository ha GitHub Pages attivo
             pages_api_url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{repo_name}/pages"
-            pages_response = requests.get(pages_api_url, headers=HEADERS)
+            pages_response = requests.get(pages_api_url)
 
             if pages_response.status_code == 200:  # Se GitHub Pages è attivo
                 repo_links.append(f'<li><a href="{pages_url}">{repo_name}</a></li>')
