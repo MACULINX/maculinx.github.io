@@ -26,7 +26,7 @@ jobs:
       - name: Generate index.html
         run: python generate_index.py
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit and Push Changes
         run: |
