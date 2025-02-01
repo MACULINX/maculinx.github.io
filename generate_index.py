@@ -3,7 +3,7 @@ import os
 
 # Configura i tuoi dati
 GITHUB_USERNAME = "maculinx"
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")  # Usa il token GitHub dalle secrets
+GITHUB_TOKEN = os.getenv("TOKEN")  # Usa il token GitHub dalle secrets
 
 # URL per ottenere tutte le repo dell'utente
 API_REPOS_URL = f"https://api.github.com/users/{GITHUB_USERNAME}/repos"
