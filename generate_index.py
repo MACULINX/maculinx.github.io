@@ -26,7 +26,7 @@ for repo in repos:
 
             if pages_response.status_code == 200:  # Se GitHub Pages è attivo
                 repo_links.append(f'<li><a href="{pages_url}">{repo_name}</a></li>')
-    except KeyError as e:
+    except RuntimeError as e:
         print(f"Errore nel recuperare il nome della repository: {e}")
 
 
