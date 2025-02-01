@@ -1,25 +1,21 @@
 name: Update GitHub Pages Index
 
 on:
-  schedule:
-    - cron: "0 * * * *"  # Esegui ogni ora
-  workflow_dispatch:  # Permette di avviarlo manualmente
   push:
     branches:
-      - main  # Esegue quando la branch "main" viene aggiornata
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          # Configura il checkout per fare il push successivo
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
@@ -27,15 +23,20 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Generate index.html
-        run: python generate_index.py
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Index
+        run: |
+          python generate_index.py
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git commit -m "Aggiornato automaticamente l'index"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/MACULINX/maculinx.github.io.git
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit"
+          else
+            git commit -m "Aggiornato automaticamente l'index"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
