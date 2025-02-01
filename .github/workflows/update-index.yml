@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           # Configura il checkout per fare il push successivo
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v3
